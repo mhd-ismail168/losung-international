@@ -7,12 +7,12 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, 'index.html'),
                 notFound: resolve(__dirname, '404.html'),
-                about: resolve(__dirname, 'pages/about.html'),
-                contact: resolve(__dirname, 'pages/contact.html'),
-                fmiph: resolve(__dirname, 'pages/fmiph.html'),
-                programs: resolve(__dirname, 'pages/programs.html'),
-                tyumen: resolve(__dirname, 'pages/tyumen.html'),
-                universities: resolve(__dirname, 'pages/universities.html')
+                about: resolve(__dirname, 'about.html'),
+                contact: resolve(__dirname, 'contact.html'),
+                fmiph: resolve(__dirname, 'fmiph.html'),
+                programs: resolve(__dirname, 'programs.html'),
+                tyumen: resolve(__dirname, 'tyumen.html'),
+                universities: resolve(__dirname, 'universities.html')
             }
         }
     }
