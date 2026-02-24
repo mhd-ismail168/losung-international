@@ -63,6 +63,12 @@ body {
   color: var(--color-navy);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+body.page-transitioning {
+  opacity: 0;
 }
 
 h1,

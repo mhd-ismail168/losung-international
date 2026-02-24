@@ -5,19 +5,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 // --- Page Transitions ---
-document.body.style.opacity = '1';
+// Ensure body is visible on page load
+document.body.classList.remove('page-transitioning');
 document.body.classList.add('page-loaded');
+// Clear any inline opacity style set during navigation
+delete document.body.style.opacity;
 
 document.querySelectorAll('a').forEach(link => {
   if (link.hostname === window.location.hostname && !link.hash && link.getAttribute('href') !== '#') {
     link.addEventListener('click', e => {
       e.preventDefault();
       const href = link.getAttribute('href');
-      gsap.to(document.body, {
-        opacity: 0, duration: 0.5, onComplete: () => {
-          window.location.href = href;
-        }
-      });
+      document.body.classList.add('page-transitioning');
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500);
     });
   }
 });
