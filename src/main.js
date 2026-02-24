@@ -1,24 +1,22 @@
+/**
+ * This file is not used in the production build.
+ * It's kept for reference as a Vite boilerplate artifact.
+ * 
+ * The actual application uses:
+ * - root main.js for page-wide functionality
+ * - Individual HTML files for static multi-page content
+ * 
+ * This is a static multi-page website, NOT a Single Page Application.
+ */
+
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
-
-setupCounter(document.querySelector('#counter'))
+// Safe initialization wrapped in DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  // This space is reserved for safe, global scripts that enhance existing HTML
+  // Examples: event listeners, animations, form handling, scroll effects
+  
+  // DO NOT inject HTML content here
+  // DO NOT replace the DOM
+  // DO NOT assume any #app container exists
+});

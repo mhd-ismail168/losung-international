@@ -5,23 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 // --- Page Transitions ---
-const resetPageState = () => {
-  // Ensure body is visible on page load
-  document.body.classList.remove('page-transitioning');
-  document.body.classList.add('page-loaded');
-  // Clear any inline opacity style set during navigation
-  delete document.body.style.opacity;
-  // Reset GSAP animations
-  gsap.killTweensOf(document.body);
-  // Reset ScrollTrigger
-  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  ScrollTrigger.refresh();
-};
-
-resetPageState();
-
-// Handle back button and browser history
-window.addEventListener('popstate', resetPageState);
+// Ensure body is visible on page load
+document.body.classList.remove('page-transitioning');
+document.body.classList.add('page-loaded');
+// Clear any inline opacity style set during navigation
+delete document.body.style.opacity;
 
 document.querySelectorAll('a').forEach(link => {
   if (link.hostname === window.location.hostname && !link.hash && link.getAttribute('href') !== '#') {
@@ -189,16 +177,18 @@ if (orbContainer) {
 }
 
 // --- Spotlight Effect ---
-const glassCards = document.querySelectorAll('.glass-card');
-glassCards.forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
+if (document.querySelectorAll('.glass-card').length > 0) {
+  const glassCards = document.querySelectorAll('.glass-card');
+  glassCards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
   });
-});
+}
 
 // --- Founder Image CometCard 3D Animation ---
 const founderWrapper = document.querySelector('.founder-image-wrapper-premium');
@@ -380,16 +370,18 @@ if (document.querySelector('.founder-section')) {
 }
 
 // --- Glassmorphism Hover Effect ---
-const cards = document.querySelectorAll('.glass-card, .program-card, .destination-card, .uni-card, .uni-card-premium')
+if (document.querySelectorAll('.glass-card, .program-card, .destination-card, .uni-card, .uni-card-premium').length > 0) {
+  const cards = document.querySelectorAll('.glass-card, .program-card, .destination-card, .uni-card, .uni-card-premium');
 
-cards.forEach((card) => {
-  card.addEventListener('mouseenter', () => {
-    gsap.to(card, { y: -15, boxShadow: '0 25px 50px rgba(0,0,0,0.15)', duration: 0.4, ease: 'power2.out' })
+  cards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      gsap.to(card, { y: -15, boxShadow: '0 25px 50px rgba(0,0,0,0.15)', duration: 0.4, ease: 'power2.out' })
+    })
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { y: 0, boxShadow: '0 8px 32px rgba(31, 38, 135, 0.1)', duration: 0.4, ease: 'power2.out' })
+    })
   })
-  card.addEventListener('mouseleave', () => {
-    gsap.to(card, { y: 0, boxShadow: '0 8px 32px rgba(31, 38, 135, 0.1)', duration: 0.4, ease: 'power2.out' })
-  })
-})
+}
 
 // --- FMIPH Redesign Animations (Intersection Observer) ---
 // This logic handles the specific animations for the FMIPH page counters and fade-ins
@@ -413,46 +405,52 @@ const visibilityObserver = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-document.querySelectorAll('.fade-up, .fade-in-up').forEach(el => {
-  visibilityObserver.observe(el);
-});
+if (document.querySelectorAll('.fade-up, .fade-in-up').length > 0) {
+  document.querySelectorAll('.fade-up, .fade-in-up').forEach(el => {
+    visibilityObserver.observe(el);
+  });
+}
 
 // 2. Observer for Counters (Trigger when stats are in view)
 const counterObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const counters = entry.target.querySelectorAll('.counter');
-      counters.forEach(counter => {
-        // Reset and Animate
-        const target = +counter.getAttribute('data-target');
-        const duration = 2000; // 2s
-        const startTime = performance.now();
+      if (counters.length > 0) {
+        counters.forEach(counter => {
+          // Reset and Animate
+          const target = +counter.getAttribute('data-target');
+          const duration = 2000; // 2s
+          const startTime = performance.now();
 
-        const updateCounter = (currentTime) => {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easeProgress = 1 - Math.pow(1 - progress, 3); // cubic-out
+          const updateCounter = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 3); // cubic-out
 
-          const value = Math.floor(easeProgress * target);
-          counter.innerText = value;
+            const value = Math.floor(easeProgress * target);
+            counter.innerText = value;
 
-          if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-          } else {
-            counter.innerText = target; // Ensure final value
-          }
-        };
-        requestAnimationFrame(updateCounter);
-      });
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              counter.innerText = target; // Ensure final value
+            }
+          };
+          requestAnimationFrame(updateCounter);
+        });
+      }
       counterObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.5 });
 
 // Observe containers that hold counters
-document.querySelectorAll('.fmiph-hero-stats, .fmiph-about-stats, .stats-grid-premium').forEach(el => {
-  counterObserver.observe(el);
-});
+if (document.querySelectorAll('.fmiph-hero-stats, .fmiph-about-stats, .stats-grid-premium').length > 0) {
+  document.querySelectorAll('.fmiph-hero-stats, .fmiph-about-stats, .stats-grid-premium').forEach(el => {
+    counterObserver.observe(el);
+  });
+}
 
 // --- India Section Filtering Logic ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -570,75 +568,75 @@ const initCarousel = () => {
   const carouselItems = document.querySelectorAll('.testimonial-clean');
   const container = document.querySelector('.testimonial-carousel-container');
 
-  if (carouselItems.length > 0) {
-    let currentIndex = 0;
-    const totalItems = carouselItems.length;
+  if (carouselItems.length === 0 || !container) {
+    return;
+  }
 
-    function updateCarousel() {
-      carouselItems.forEach((item, index) => {
-        // Clear all positional classes
-        item.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
+  let currentIndex = 0;
+  const totalItems = carouselItems.length;
 
-        if (index === currentIndex) {
-          item.classList.add('active');
-        } else if (index === (currentIndex - 1 + totalItems) % totalItems) {
-          item.classList.add('prev');
-        } else if (index === (currentIndex + 1) % totalItems) {
-          item.classList.add('next');
-        } else if (index < currentIndex) {
-          item.classList.add('hidden-left');
-        } else {
-          item.classList.add('hidden-right');
-        }
-      });
-    }
-
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % totalItems;
-      updateCarousel();
-    }
-
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-      updateCarousel();
-    }
-
+  function updateCarousel() {
     carouselItems.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        if (item.classList.contains('next')) nextSlide();
-        if (item.classList.contains('prev')) prevSlide();
-      });
+      // Clear all positional classes
+      item.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
+
+      if (index === currentIndex) {
+        item.classList.add('active');
+      } else if (index === (currentIndex - 1 + totalItems) % totalItems) {
+        item.classList.add('prev');
+      } else if (index === (currentIndex + 1) % totalItems) {
+        item.classList.add('next');
+      } else if (index < currentIndex) {
+        item.classList.add('hidden-left');
+      } else {
+        item.classList.add('hidden-right');
+      }
     });
+  }
 
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % totalItems;
     updateCarousel();
-    let carouselInterval = setInterval(nextSlide, 2500);
+  }
 
-    if (container) {
-      container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-      container.addEventListener('mouseleave', () => {
-        carouselInterval = setInterval(nextSlide, 2500);
-      });
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+    updateCarousel();
+  }
 
-      const prevBtn = container.querySelector('.testi-prev');
-      const nextBtn = container.querySelector('.testi-next');
+  carouselItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      if (item.classList.contains('next')) nextSlide();
+      if (item.classList.contains('prev')) prevSlide();
+    });
+  });
 
-      if (prevBtn) {
-        prevBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          prevSlide();
-          clearInterval(carouselInterval);
-          carouselInterval = setInterval(nextSlide, 2500);
-        });
-      }
-      if (nextBtn) {
-        nextBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          nextSlide();
-          clearInterval(carouselInterval);
-          carouselInterval = setInterval(nextSlide, 2500);
-        });
-      }
-    }
+  updateCarousel();
+  let carouselInterval = setInterval(nextSlide, 2500);
+
+  container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+  container.addEventListener('mouseleave', () => {
+    carouselInterval = setInterval(nextSlide, 2500);
+  });
+
+  const prevBtn = container.querySelector('.testi-prev');
+  const nextBtn = container.querySelector('.testi-next');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      prevSlide();
+      clearInterval(carouselInterval);
+      carouselInterval = setInterval(nextSlide, 2500);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      nextSlide();
+      clearInterval(carouselInterval);
+      carouselInterval = setInterval(nextSlide, 2500);
+    });
   }
 };
 
