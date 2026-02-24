@@ -2,51 +2,5 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "env": {
-    "VERCEL_ENV": "production"
-  },
-  "headers": [
-    {
-      "source": "/(.*)\\.(js|css|woff|woff2|ttf|otf|eot|svg|gif|jpg|jpeg|png|webp|ico)$",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.(html)$",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    }
-  ],
-  "routes": [
-    {
-      "src": "^/$",
-      "dest": "/index.html"
-    },
-    {
-      "src": "^/(universities|programs|about|contact|fmiph|tyumen)\\.html$",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "^/(universities|programs|about|contact|fmiph|tyumen)/?$",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "^/(.*)\\.(js|css|json|woff|woff2|ttf|otf|eot|svg|gif|jpg|jpeg|png|webp|ico)$",
-      "dest": "/$1.$2"
-    },
-    {
-      "src": "^/(.+)$",
-      "dest": "/404.html",
-      "status": 404
-    }
-  ]
+  "trailingSlash": false
 }
