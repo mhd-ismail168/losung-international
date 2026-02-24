@@ -4,23 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// --- Handle back button and history ---
-window.addEventListener('pageshow', (event) => {
-  if (event.persisted) {
-    // Page was restored from bfcache (back button)
-    document.body.style.opacity = '1';
-    document.body.classList.add('page-loaded');
-    ScrollTrigger.refresh();
-  }
-});
-
-window.addEventListener('pagehide', (event) => {
-  if (event.persisted) {
-    // Page might be stored in bfcache
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  }
-});
-
 // --- Page Transitions ---
 document.body.style.opacity = '1';
 document.body.classList.add('page-loaded');

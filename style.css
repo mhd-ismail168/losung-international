@@ -565,12 +565,12 @@ img {
 
   /* Logo responsive */
   .logo-container .logo-text:first-of-type {
-    font-size: 1.6rem !important;
+    font-size: 1.5rem !important;
   }
 
   .logo-container .logo-text:last-of-type {
-    font-size: 0.56rem !important;
-    letter-spacing: 0.38em !important;
+    font-size: 0.5rem !important;
+    letter-spacing: 0.35em !important;
   }
 
   .logo-container {
@@ -3857,7 +3857,7 @@ body.premium-page {
   height: 50px;
   background: white;
   border-radius: 50%;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -4715,12 +4715,12 @@ body.premium-page {
 
   /* Logo responsive for small phones */
   .logo-container .logo-text:first-of-type {
-    font-size: 1.4rem !important;
+    font-size: 1.2rem !important;
   }
 
   .logo-container .logo-text:last-of-type {
-    font-size: 0.52rem !important;
-    letter-spacing: 0.35em !important;
+    font-size: 0.45rem !important;
+    letter-spacing: 0.3em !important;
   }
 }
 
