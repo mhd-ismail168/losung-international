@@ -4,25 +4,51 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// --- Page Transitions ---
-// Ensure body is visible on page load
-document.body.classList.remove('page-transitioning');
-document.body.classList.add('page-loaded');
-// Clear any inline opacity style set during navigation
-delete document.body.style.opacity;
-
-document.querySelectorAll('a').forEach(link => {
-  if (link.hostname === window.location.hostname && !link.hash && link.getAttribute('href') !== '#') {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const href = link.getAttribute('href');
-      document.body.classList.add('page-transitioning');
-      setTimeout(() => {
-        window.location.href = href;
-      }, 500);
-    });
-  }
+// --- Safe Page Fade Transition (non-blocking) ---
+// Make page visible when loaded or when returning via browser navigation
+window.addEventListener('pageshow', () => {
+  document.body.classList.add('page-visible');
+  // Collapse navbar on page show (back/forward navigation)
+  collapseNavbar();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-visible');
+  // Ensure navbar is collapsed on initial page load
+  collapseNavbar();
+});
+
+// Fade out on internal link click (allows normal navigation)
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+  if (!link) return;
+
+  const isInternal = link.hostname === window.location.hostname;
+  if (!isInternal) return;
+
+  // Collapse navbar before navigation
+  collapseNavbar();
+  // Fade out body - navigation continues normally
+  document.body.classList.remove('page-visible');
+});
+
+// Helper function to collapse navbar
+function collapseNavbar() {
+  const hamburgerMenu = document.getElementById('hamburger-menu');
+  const navEl = document.getElementById('card-nav');
+  const navContainer = document.querySelector('.card-nav-container');
+  
+  if (hamburgerMenu) {
+    hamburgerMenu.classList.remove('open');
+  }
+  if (navEl) {
+    navEl.classList.remove('open');
+    gsap.set(navEl, { height: 60, overflow: 'hidden' });
+  }
+  if (navContainer) {
+    navContainer.classList.remove('nav-hidden');
+  }
+}
 
 // --- CardNav Expansion Logic ---
 const initCardNav = () => {

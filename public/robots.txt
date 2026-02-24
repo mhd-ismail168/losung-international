@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://losunginternational.com/sitemap.xml
+Sitemap: https://losungn.in/sitemap.xml
