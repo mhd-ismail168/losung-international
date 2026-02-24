@@ -1,79 +1,52 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "env": {
     "VERCEL_ENV": "production"
   },
+  "headers": [
+    {
+      "source": "/(.*)\\.(js|css|woff|woff2|ttf|otf|eot|svg|gif|jpg|jpeg|png|webp|ico)$",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(html)$",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
-      "src": "^/images/(.*)$",
-      "dest": "/images/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "^/assets/(.*)$",
-      "dest": "/assets/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "^/(style\\.css|main\\.js|favicon\\.ico)$",
-      "dest": "/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=3600, must-revalidate"
-      }
-    },
-    {
-      "src": "^/(robots\\.txt|sitemap\\.xml)$",
-      "dest": "/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=86400"
-      }
-    },
-    {
       "src": "^/$",
-      "dest": "/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
-    },
-    {
-      "src": "^/index\\.html$",
-      "dest": "/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
-    },
-    {
-      "src": "^/404\\.html$",
-      "dest": "/404.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
-    },
-    {
-      "src": "^/(universities|programs|about|contact|fmiph|tyumen)/?$",
-      "dest": "/$1.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
+      "dest": "/index.html"
     },
     {
       "src": "^/(universities|programs|about|contact|fmiph|tyumen)\\.html$",
-      "dest": "/$1.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
+      "dest": "/$1.html"
     },
     {
-      "src": "^/(.+)\\.html$",
-      "dest": "/$1.html",
-      "headers": {
-        "Cache-Control": "public, max-age=0, must-revalidate"
-      }
+      "src": "^/(universities|programs|about|contact|fmiph|tyumen)/?$",
+      "dest": "/$1.html"
+    },
+    {
+      "src": "^/(.*)\\.(js|css|json|woff|woff2|ttf|otf|eot|svg|gif|jpg|jpeg|png|webp|ico)$",
+      "dest": "/$1.$2"
+    },
+    {
+      "src": "^/(.+)$",
+      "dest": "/404.html",
+      "status": 404
     }
   ]
 }
