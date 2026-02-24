@@ -5,11 +5,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 // --- Page Transitions ---
-// Ensure body is visible on page load
-document.body.classList.remove('page-transitioning');
-document.body.classList.add('page-loaded');
-// Clear any inline opacity style set during navigation
-delete document.body.style.opacity;
+const resetPageState = () => {
+  // Ensure body is visible on page load
+  document.body.classList.remove('page-transitioning');
+  document.body.classList.add('page-loaded');
+  // Clear any inline opacity style set during navigation
+  delete document.body.style.opacity;
+  // Reset GSAP animations
+  gsap.killTweensOf(document.body);
+  // Reset ScrollTrigger
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  ScrollTrigger.refresh();
+};
+
+resetPageState();
+
+// Handle back button and browser history
+window.addEventListener('popstate', resetPageState);
 
 document.querySelectorAll('a').forEach(link => {
   if (link.hostname === window.location.hostname && !link.hash && link.getAttribute('href') !== '#') {
