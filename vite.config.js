@@ -3,6 +3,8 @@ import { resolve } from 'path';
 
 export default defineConfig({
     build: {
+        outDir: 'dist',
+        emptyOutDir: true,
         rollupOptions: {
             input: {
                 main: resolve(__dirname, 'index.html'),
@@ -13,7 +15,17 @@ export default defineConfig({
                 programs: resolve(__dirname, 'programs.html'),
                 tyumen: resolve(__dirname, 'tyumen.html'),
                 universities: resolve(__dirname, 'universities.html')
+            },
+            output: {
+                entryFileNames: '[name].js',
+                chunkFileNames: '[name].js',
+                assetFileNames: '[name].[ext]'
             }
+        }
+    },
+    server: {
+        headers: {
+            'Cache-Control': 'public, max-age=0, must-revalidate'
         }
     }
 });

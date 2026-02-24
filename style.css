@@ -563,6 +563,16 @@ img {
     order: 2;
   }
 
+  /* Logo responsive */
+  .logo-container .logo-text:first-of-type {
+    font-size: 1.6rem !important;
+  }
+
+  .logo-container .logo-text:last-of-type {
+    font-size: 0.56rem !important;
+    letter-spacing: 0.38em !important;
+  }
+
   .logo-container {
     position: static;
     transform: none;
@@ -3036,21 +3046,12 @@ body.premium-page {
 
 @media (max-width: 768px) {
   .whatsapp-float {
-    width: 75px;
-    height: 75px;
+    width: 55px;
+    height: 55px;
   }
 
   .whatsapp-text-ring {
-    width: 75px;
-    height: 75px;
-    animation: spin 10s linear infinite;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-  }
-
-  .whatsapp-float-icon-wrap {
-    width: 50px;
-    height: 50px;
+    display: none;
   }
 
   .hero-title-large {
@@ -3856,7 +3857,7 @@ body.premium-page {
   height: 50px;
   background: white;
   border-radius: 50%;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -4710,6 +4711,16 @@ body.premium-page {
     padding: 1rem 2rem;
     font-size: 0.9rem;
     letter-spacing: 0.5px;
+  }
+
+  /* Logo responsive for small phones */
+  .logo-container .logo-text:first-of-type {
+    font-size: 1.4rem !important;
+  }
+
+  .logo-container .logo-text:last-of-type {
+    font-size: 0.52rem !important;
+    letter-spacing: 0.35em !important;
   }
 }
 

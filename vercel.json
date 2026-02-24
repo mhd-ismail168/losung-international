@@ -1,0 +1,73 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "VERCEL_ENV": "production"
+  },
+  "routes": [
+    {
+      "src": "^/images/(.*)",
+      "dest": "/images/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "^/assets/(.*)",
+      "dest": "/assets/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "^/(style\\.css|main\\.js|favicon\\.ico)",
+      "dest": "/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=3600, must-revalidate"
+      }
+    },
+    {
+      "src": "^/(robots\\.txt|sitemap\\.xml)",
+      "dest": "/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      }
+    },
+    {
+      "src": "^/index\\.html$",
+      "dest": "/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    },
+    {
+      "src": "^/404\\.html$",
+      "dest": "/404.html",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    },
+    {
+      "src": "^/(universities|programs|about|contact|fmiph|tyumen)(?:\\.html)?/?$",
+      "dest": "/$1.html",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    },
+    {
+      "src": "^/(.+)\\.html$",
+      "dest": "/$1.html",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    },
+    {
+      "src": "^/(.+)/?$",
+      "dest": "/404.html",
+      "status": 404,
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    }
+  ]
+}
